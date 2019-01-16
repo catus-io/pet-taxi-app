@@ -2,24 +2,18 @@
   <Page actionBarHidden="true">
     <FlexboxLayout class="auth-w">
       <StackLayout class="auth-c">
+            <Label text="PET TAXI" class="app-name-p"></Label>
         <GridLayout class="auth-p" rows="150,auto,*">
           <StackLayout row="0" class="auth-title-i" orientation="horizontal">
             <!-- <Image src="~/images/pet-logo.png" class="logo"></Image> -->
-            <Label width="100%" text="PET TAXI" class="app-name-p"></Label>
+            <!-- <Label width="100%" text="PET TAXI" class="app-name-p"></Label> -->
           </StackLayout>
           <StackLayout row="1" class="auth-input-i">
-            <StackLayout class="input-field">
               <TextField class="input" v-model="email" hint="email come on" keyboardType="email" returnKeyType="next"/>
-            </StackLayout>
-            <StackLayout class="input-field" v-show="isSignup">
+            <!-- <StackLayout class="input-field" v-show="isSignup"> -->
               <TextField class="input" v-model="nickname" hint="nickname come on" returnKeyType="next"/>
-            </StackLayout>
-            <StackLayout class="input-field">
               <TextField class="input" v-model="password" hint="password come on" secure="true" returnKeyType="next"/>
-            </StackLayout>
-            <StackLayout class="input-field" v-show="isSignup">
               <TextField class="input" v-model="repassword" hint="repassword come on" secure="true" returnKeyType="done"/>
-            </StackLayout>
           </StackLayout>
           <StackLayout row="2">
             <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit" />
@@ -79,6 +73,12 @@ export default {
     margin-left: 30;
     margin-right: 30;
     vertical-align: middle;
+      .app-name-p {
+        font-size: 25;
+        font-weight: bold;
+        horizontal-align: center;
+        text-align: center;
+      }
     .login-p {
       horizontal-align: center;
       color: #A8A8A8;
@@ -88,21 +88,26 @@ export default {
       .logo {
         height: 180;
       }
-      .app-name-p {
-        font-size: 25;
-        font-weight: bold;
-        text-align: center;
-        justify-self: center;
+      .auth-input-i {
+        background-color: red;
+        padding-top: 10;
+
       }
-      .input-field {
-        margin-bottom: 20;
+      // .app-name-p {
+      //   font-size: 25;
+      //   font-weight: bold;
+      //   text-align: center;
+      //   justify-self: center;
+      // }
+      // .input-field {
+        // margin-bottom: 20;
         .input {
           width: 60%;
           padding: 5;
           border-bottom: 1px soild #333;
           background-color: #f1f1f1;
         }
-      }
+      // }
     }
   }
 }
