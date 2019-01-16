@@ -19,12 +19,18 @@
           <StackLayout row="4" class="input-field">
             <TextField class="input" v-model="repassword" hint="repassword come on" secure="true" returnKeyType="done"/>
           </StackLayout>
-          <StackLayout row="5">
-            <Label text="너는 이미 회원이다"/>
-            <Label text="Login"/>
-          </StackLayout>
         </GridLayout>
-        <Button text="Button" @tap="onSubmit" />
+        <Button :text="isUser ? 'Log In' : 'Sign Up'" @tap="onSubmit" />
+
+                <!-- <Button :text="isLoggingIn ? 'Log In' : 'Sign Up'" :isEnabled="!processing"
+                    @tap="submit" class="btn btn-primary m-t-20"></Button> -->
+
+        <Label class="login-p"  @tap="goToLogin">
+          <FormattedString>
+            <span text="너는 이미 회원이다 "/>
+            <span text="Login"/>
+          </FormattedString>
+        </Label>
       </StackLayout>
     </FlexboxLayout>
   </Page>
@@ -33,6 +39,7 @@
 export default {
   data() {
     return {
+      isUser: false,
       email: '',
       nickname: '',
       password: '',
@@ -42,6 +49,12 @@ export default {
   methods: {
     onSubmit() {
       console.log('Works!')
+      alert('helo')
+    },
+    goToLogin() {
+      this.isUser = true
+      console.log('>>>>>> HELow? <<<<<', this.isUser)
+
     }
   }
 }
@@ -54,16 +67,22 @@ export default {
     margin-left: 30;
     margin-right: 30;
     vertical-align: middle;
+    .login-p {
+      horizontal-align: center;
+      color: #A8A8A8;
+      font-size: 16;
+    }
     .auth-p {
       .logo {
-        height: 90;
+        height: 180;
       }
       .app-name-p {
         font-size: 25;
         font-weight: bold;
+        text-align: center;
       }
       .input-field {
-        margin-bottom: 25;
+        margin-bottom: 20;
         .input {
           // placeholder-color: #A8A8A8;
         }
