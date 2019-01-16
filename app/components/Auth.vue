@@ -1,30 +1,32 @@
 <template>
-  <Page actionBarHidden="true">
+  <Page>
     <FlexboxLayout class="auth-w">
       <StackLayout class="auth-c">
-            <Label text="PET TAXI" class="app-name-p"></Label>
-        <GridLayout class="auth-p" rows="150,auto,*">
-          <StackLayout row="0" class="auth-title-i" orientation="horizontal">
-            <!-- <Image src="~/images/pet-logo.png" class="logo"></Image> -->
-            <!-- <Label width="100%" text="PET TAXI" class="app-name-p"></Label> -->
+        <Label text="PET TAXI" class="app-name-p"/>
+      </StackLayout>
+      <StackLayout class="auth-c input-field-w">
+        <GridLayout class="input-field-c" rows="auto, auto, auto, auto">
+          <StackLayout row="0" class="input-field-p">
+            <TextField class="input" v-model="email" hint="Email" keyboardType="email" returnKeyType="next"/> </StackLayout>
+          <StackLayout row="1" class="input-field-p" v-show="isSignup">
+            <TextField class="input" v-model="nickname" hint="Nickname" returnKeyType="next"/>
           </StackLayout>
-          <StackLayout row="1" class="auth-input-i">
-              <TextField class="input" v-model="email" hint="email come on" keyboardType="email" returnKeyType="next"/>
-            <!-- <StackLayout class="input-field" v-show="isSignup"> -->
-              <TextField class="input" v-model="nickname" hint="nickname come on" returnKeyType="next"/>
-              <TextField class="input" v-model="password" hint="password come on" secure="true" returnKeyType="next"/>
-              <TextField class="input" v-model="repassword" hint="repassword come on" secure="true" returnKeyType="done"/>
+          <StackLayout row="2" class="input-field-p">
+            <TextField class="input" v-model="password" hint="Password" secure="true" returnKeyType="next"/>
           </StackLayout>
-          <StackLayout row="2">
-            <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit" />
-            <Label class="login-p" @tap="toggleAuth">
-              <FormattedString>
-                <span :text="isSignup ? '이미 회원이시라면' : '비밀번호를 잊으셨다면' "/>
-                <span :text="isSignup ? '로그인' : '회원가입'" />
-              </FormattedString>
-            </Label>
+          <StackLayout row="3" class="input-field-p" v-show="isSignup">
+            <TextField class="input" v-model="repassword" hint="Repeat password" secure="true" returnKeyType="done"/>
           </StackLayout>
         </GridLayout>
+      </StackLayout>
+      <StackLayout class="auth-c">
+        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit" />
+        <Label class="login-p" @tap="toggleAuth">
+          <FormattedString>
+            <span :text="isSignup ? '이미 회원이시라면' : '비밀번호를 잊으셨다면' "/>
+            <span :text="isSignup ? '로그인' : '회원가입'" />
+          </FormattedString>
+        </Label>
       </StackLayout>
     </FlexboxLayout>
   </Page>
@@ -65,50 +67,57 @@ export default {
 </script>
 <style lang="scss" scoped>
 .auth-w {
-  flex-direction: column;
-  align-items: center;
   background: url("~/images/pet-taxi-auth-bg.jpg");
   background-size: cover;
+  flex-direction: column;
+  justify-content: space-between;
   .auth-c {
-    margin-left: 30;
-    margin-right: 30;
+    align-self: center;
     vertical-align: middle;
-      .app-name-p {
-        font-size: 25;
-        font-weight: bold;
-        horizontal-align: center;
-        text-align: center;
-      }
-    .login-p {
-      horizontal-align: center;
-      color: #A8A8A8;
-      font-size: 16;
+    .app-name-p {
+      font-size: 25;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 70;
     }
-    .auth-p {
-      .logo {
-        height: 180;
+  }
+  .input-field-w {
+    padding: 50;
+    flex: 2;
+    .input-field-c {
+      background-color: rgba(251, 117, 55, 0.7);
+      border-radius: 5;
+    }
+    .input-field-p {
+      margin: 30;
+      .input {
+        font-size: 20;
       }
-      .auth-input-i {
-        background-color: red;
-        padding-top: 10;
-
-      }
-      // .app-name-p {
-      //   font-size: 25;
-      //   font-weight: bold;
-      //   text-align: center;
-      //   justify-self: center;
-      // }
-      // .input-field {
-        // margin-bottom: 20;
-        .input {
-          width: 60%;
-          padding: 5;
-          border-bottom: 1px soild #333;
-          background-color: #f1f1f1;
-        }
-      // }
     }
   }
 }
+// .auth-w {
+//   background: url("~/images/pet-taxi-auth-bg.jpg");
+//   background-size: cover;
+//   .auth-c {
+//     vertical-align: middle;
+//     .app-name-p {
+//     }
+//     .login-p {
+//       color: #A8A8A8;
+//       font-size: 16;
+//     }
+//     .auth-p {
+//       .input-field {
+//         margin: 0 30;
+//         .input {
+//           font-size: 20;
+//           margin-bottom: 15;
+//           // border-bottom: 1px soild #333;
+//           // background-color: #f1f1f1;
+//         }
+//       }
+//     }
+//   }
+// }
 </style>
