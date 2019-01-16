@@ -10,25 +10,21 @@
           <StackLayout row="1" class="input-field">
             <TextField class="input" v-model="email" hint="email come on" keyboardType="email" returnKeyType="next"/>
           </StackLayout>
-          <StackLayout row="2" class="input-field">
+          <StackLayout row="2" class="input-field" v-show="isSignup">
             <TextField class="input" v-model="nickname" hint="nickname come on" returnKeyType="next"/>
           </StackLayout>
           <StackLayout row="3" class="input-field">
             <TextField class="input" v-model="password" hint="password come on" secure="true" returnKeyType="next"/>
           </StackLayout>
-          <StackLayout row="4" class="input-field">
+          <StackLayout row="4" class="input-field" v-show="isSignup">
             <TextField class="input" v-model="repassword" hint="repassword come on" secure="true" returnKeyType="done"/>
           </StackLayout>
         </GridLayout>
-        <Button :text="isUser ? 'Log In' : 'Sign Up'" @tap="onSubmit" />
-
-                <!-- <Button :text="isLoggingIn ? 'Log In' : 'Sign Up'" :isEnabled="!processing"
-                    @tap="submit" class="btn btn-primary m-t-20"></Button> -->
-
-        <Label class="login-p"  @tap="goToLogin">
+        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit" />
+        <Label class="login-p" @tap="toggleAuth">
           <FormattedString>
-            <span text="너는 이미 회원이다 "/>
-            <span text="Login"/>
+            <span :text="isSignup ? '이미 회원이시라면' : '비밀번호를 잊으셨다면' "/>
+            <span :text="isSignup ? '로그인' : '회원가입'" />
           </FormattedString>
         </Label>
       </StackLayout>
@@ -36,10 +32,15 @@
   </Page>
 </template>
 <script>
+import Home from './Home'
 export default {
   data() {
     return {
-      isUser: false,
+      user: {
+        email: 'Hello',
+        password: 'hello'
+      },
+      isSignup: false,
       email: '',
       nickname: '',
       password: '',
@@ -48,13 +49,18 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('Works!')
-      alert('helo')
+      if(this.isSignup) {
+        console.log('저장함')
+      }
+      else {
+        if(this.email == this.user.email && this.password == this.user.password) {
+          this.$navigateTo(Home, { clearHistory: true })
+        }
+      }
     },
-    goToLogin() {
-      this.isUser = true
-      console.log('>>>>>> HELow? <<<<<', this.isUser)
-
+    toggleAuth() {
+      this.isSignup = !this.isSignup
+      this.email = this.nickname = this.password = this.repassword = ''
     }
   }
 }
