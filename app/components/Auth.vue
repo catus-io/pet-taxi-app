@@ -49,8 +49,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      if(this.isSignup) {
-        console.log('저장함')
+      const baseURI = 'http://192.168.13.7:3000'
+      if(this.isSignup)
+        this.$http.post(`${baseURI}/signup`, { id: this.email,nickname: this.nickname, password: this.password })
+        .then(console.log('sucessful send'))
+      if(!this.isSignup) {
+        console.log('hello');
       }
       else {
         if(this.email == this.user.email && this.password == this.user.password) {
@@ -82,42 +86,19 @@ export default {
     }
   }
   .input-field-w {
-    padding: 50;
+    padding: 60;
     flex: 2;
     .input-field-c {
-      background-color: rgba(251, 117, 55, 0.7);
+      background-color: rgba(51, 51, 51, 0.63);
       border-radius: 5;
     }
     .input-field-p {
-      margin: 30;
+      margin: 20;
       .input {
-        font-size: 20;
+        font-size: 10;
+        color: #fff;
       }
     }
   }
 }
-// .auth-w {
-//   background: url("~/images/pet-taxi-auth-bg.jpg");
-//   background-size: cover;
-//   .auth-c {
-//     vertical-align: middle;
-//     .app-name-p {
-//     }
-//     .login-p {
-//       color: #A8A8A8;
-//       font-size: 16;
-//     }
-//     .auth-p {
-//       .input-field {
-//         margin: 0 30;
-//         .input {
-//           font-size: 20;
-//           margin-bottom: 15;
-//           // border-bottom: 1px soild #333;
-//           // background-color: #f1f1f1;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>
