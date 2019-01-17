@@ -1,5 +1,5 @@
 <template>
-  <Page>
+  <Page actionBarHidden="true">
     <FlexboxLayout class="auth-w">
       <StackLayout class="auth-c">
         <Label text="PET TAXI" class="app-name-p"/>
@@ -49,9 +49,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      const baseURI = 'http://192.168.13.7:3000'
+      const baseURI = 'http://192.168.13.4:3000'
       if(this.isSignup)
-        this.$http.post(`${baseURI}/signup`, { id: this.email,nickname: this.nickname, password: this.password })
+        this.$http.post(`${baseURI}/api/signup`, { id: this.email, nickname: this.nickname, password: this.password })
         .then(console.log('sucessful send'))
       if(!this.isSignup) {
         console.log('hello');
