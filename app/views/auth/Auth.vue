@@ -7,20 +7,21 @@
       <StackLayout class="auth-c input-field-w">
         <GridLayout class="input-field-c" rows="auto, auto, auto, auto">
           <StackLayout row="0" class="input-field-p">
-            <TextField class="input" v-model="email" hint="Email" keyboardType="email" returnKeyType="next"/> </StackLayout>
+            <float-label v-model="email" placeholder="Email" secure="false"></float-label>
+          </StackLayout>
           <StackLayout row="1" class="input-field-p" v-show="isSignup">
-            <TextField class="input" v-model="nickname" hint="Nickname" returnKeyType="next"/>
+            <float-label v-model="nickname" placeholder="Nickname" secure="false"></float-label>
           </StackLayout>
           <StackLayout row="2" class="input-field-p">
-            <TextField class="input" v-model="password" hint="Password" secure="true" returnKeyType="next"/>
+            <float-label v-model="password" placeholder="Password" secure="true"></float-label>
           </StackLayout>
           <StackLayout row="3" class="input-field-p" v-show="isSignup">
-            <TextField class="input" v-model="repassword" hint="Repeat password" secure="true" returnKeyType="done"/>
+            <float-label v-model="repassword" placeholder="Repeat password" secure="true"></float-label>
           </StackLayout>
         </GridLayout>
       </StackLayout>
       <StackLayout class="auth-c">
-        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit" />
+        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit"/>
         <Label class="login-p" @tap="toggleAuth">
           <FormattedString>
             <span :text="isSignup ? '이미 회원이시라면' : '비밀번호를 잊으셨다면' "/>
@@ -32,8 +33,12 @@
   </Page>
 </template>
 <script>
-import Home from './Home'
+import Home from '~/views/Home.vue'
+import FloatLabel from '~/components/FloatLabel.vue'
 export default {
+  components: {
+    'float-label': FloatLabel
+  },
   data() {
     return {
       user: {
@@ -44,23 +49,25 @@ export default {
       email: '',
       nickname: '',
       password: '',
-      repassword: '',
+      repassword: ''
     }
   },
   methods: {
     onSubmit() {
-      const baseURI = 'http://192.168.13.4:3000'
-      if(this.isSignup)
-        this.$http.post(`${baseURI}/api/signup`, { id: this.email, nickname: this.nickname, password: this.password })
-        .then(console.log('sucessful send'))
-      if(!this.isSignup) {
-        console.log('hello');
-      }
-      else {
-        if(this.email == this.user.email && this.password == this.user.password) {
-          this.$navigateTo(Home, { clearHistory: true })
-        }
-      }
+      console.log(this.email)
+      console.log(this.password)
+      // const baseURI = 'http://192.168.13.4:3000'
+      // if(this.isSignup)
+      //   this.$http.post(`${baseURI}/api/signup`, { id: this.email, nickname: this.nickname, password: this.password })
+      //   .then(console.log('sucessful send'))
+      // if(!this.isSignup) {
+      //   console.log('hello');
+      // }
+      // else {
+      //   if(this.email == this.user.email && this.password == this.user.password) {
+      //     this.$navigateTo(Home, { clearHistory: true })
+      //   }
+      // }
     },
     toggleAuth() {
       this.isSignup = !this.isSignup
