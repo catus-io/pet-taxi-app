@@ -56,18 +56,18 @@ export default {
     onSubmit() {
       console.log(this.email)
       console.log(this.password)
-      // const baseURI = 'http://192.168.13.4:3000'
-      // if(this.isSignup)
-      //   this.$http.post(`${baseURI}/api/signup`, { id: this.email, nickname: this.nickname, password: this.password })
-      //   .then(console.log('sucessful send'))
-      // if(!this.isSignup) {
-      //   console.log('hello');
-      // }
-      // else {
-      //   if(this.email == this.user.email && this.password == this.user.password) {
-      //     this.$navigateTo(Home, { clearHistory: true })
-      //   }
-      // }
+      const baseURI = 'http://192.168.13.4:3000'
+      if(this.isSignup)
+        this.$http.post(`${baseURI}/api/signup`, { email: this.email, nickname: this.nickname, password: this.password })
+        .then(console.log('sucessful send'))
+      if(!this.isSignup) {
+        console.log('hello');
+      }
+      else {
+        if(this.email == this.user.email && this.password == this.user.password) {
+          this.$navigateTo(Home, { clearHistory: true })
+        }
+      }
     },
     toggleAuth() {
       this.isSignup = !this.isSignup
@@ -101,9 +101,11 @@ export default {
     }
     .input-field-p {
       margin: 20;
-      .input {
+      .float-label {
         font-size: 10;
         color: #fff;
+        margin: 0 0;
+        padding: 0 0;
       }
     }
   }
