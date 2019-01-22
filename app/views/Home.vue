@@ -10,14 +10,23 @@
           <Span :text="message"/>
         </FormattedString>
       </Label>
+       <StackLayout>
+        <Button text="Back to Master" @tap="goAuth" />
+      </StackLayout>
     </GridLayout>
   </Page>
 </template>
 <script>
+import Auth from '~/views/auth/Auth.vue'
 export default {
   computed: {
     message() {
       return "5시간 짜리야 세꺄";
+    }
+  },
+  methods : {
+    goAuth() {
+      this.$navigateTo(Auth)
     }
   }
 };

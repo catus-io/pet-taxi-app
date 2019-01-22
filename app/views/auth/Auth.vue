@@ -41,10 +41,6 @@ export default {
   },
   data() {
     return {
-      user: {
-        email: 'Hello',
-        password: 'hello'
-      },
       isSignup: false,
       email: '',
       nickname: '',
@@ -54,19 +50,15 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.email)
-      console.log(this.password)
-      const baseURI = 'http://192.168.13.4:3000'
-      if(this.isSignup)
+      const baseURI = 'http://192.168.13.7:3000'
+      if(this.isSignup){
         this.$http.post(`${baseURI}/api/signup`, { email: this.email, nickname: this.nickname, password: this.password })
-        .then(console.log('sucessful send'))
-      if(!this.isSignup) {
-        console.log('hello');
+        .then(() => this.isSignup = false )
       }
       else {
-        if(this.email == this.user.email && this.password == this.user.password) {
-          this.$navigateTo(Home, { clearHistory: true })
-        }
+        this.$http.post(`${baseURI}/api/signin`, { email: this.email, password: this.password })
+        .then( token => console.log('token:',token.data.success))
+        .then(() => this.$navigateTo(Home, { clearHistory: true }))
       }
     },
     toggleAuth() {
