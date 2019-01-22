@@ -29,8 +29,7 @@
         <TextField v-model="pet.species" hint="견종 종류" />
         <TextField v-model="pet.note" hint="특이사항" />
       </StackLayout>
-
-
+      <Button text="logout" @tap="onLogout"/>
     </StackLayout>
   </Page>
 </template>
@@ -39,6 +38,13 @@ import Auth from '~/views/auth/Auth.vue'
 import DatePicker from '~/components/DatePicker.vue'
 import TimePicker from '~/components/TimePicker.vue'
 export default {
+  created() {
+    this.$userService.verifyToken(this.$storage.getString('token'))
+    .catch(() => {
+      this.$storage.remove('token')
+      this.$navigateTo(Auth, { clearHistory: true })
+    })
+  },
   data() {
     return {
       isOn: true,
@@ -51,9 +57,7 @@ export default {
         species: 'dic',
         note: '지랄맞음',
       }
-
     }
-
   },
   computed: {
     message() {
@@ -74,9 +78,13 @@ export default {
     },
     togglePetInfo() {
       this.isOn = !this.isOn
+    },
+    onLogout() {
+      this.$storage.remove('token')
+      this.$navigateTo(Auth, { clearHistory: true })
     }
   }
-};
+}
 </script>
 <style scoped lang="scss">
 // Start custom common variables
@@ -87,7 +95,6 @@ export default {
 .fa {
   color: $accent-dark;
 }
-
 .info {
   font-size: 20;
 }

@@ -50,21 +50,16 @@ export default {
   },
   methods: {
     onSubmit() {
-      const baseURI = 'http://192.168.13.4:3000'
       if(this.isSignup){
-        this.$http.post(`${baseURI}/api/signup`, { email: this.email, nickname: this.nickname, password: this.password })
-        .then(() => this.isSignup = false )
+        this.$userService.signup({ email: this.email, nickname: this.nickname, password: this.password })
+        .then(() => this.isSignup = false)
       }
       else {
-        this.$http.post(`${baseURI}/api/signin`, { email: this.email, password: this.password })
-        // .then( token => {
-        //   console.log('token:',token.data.success)
-        //   this.$storage.setString("userToken", "NickIliev");
-        //   const username = this.$storage.getString("userToken");
-        //   items.push(new Item("userToken", `${username}`));
-        //   console.log(username);
-        // })
-        .then(() => this.$navigateTo(Home, { clearHistory: true }))
+        this.$userService.signin({ email: this.email, password: this.password })
+        .then(response => {
+          this.$storage.setString('token', response.data.success)
+          this.$navigateTo(Home, { clearHistory: true })
+        })
       }
     },
     toggleAuth() {
