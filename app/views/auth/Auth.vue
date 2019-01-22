@@ -1,5 +1,5 @@
 <template>
-  <Page>
+  <Page actionBarHidden="true">
     <FlexboxLayout class="auth-w">
       <StackLayout class="auth-c">
         <Label text="PET TAXI" class="app-name-p"/>
@@ -7,20 +7,21 @@
       <StackLayout class="auth-c input-field-w">
         <GridLayout class="input-field-c" rows="auto, auto, auto, auto">
           <StackLayout row="0" class="input-field-p">
-            <TextField class="input" v-model="email" hint="Email" keyboardType="email" returnKeyType="next"/> </StackLayout>
+            <float-label v-model="email" placeholder="Email" secure="false"></float-label>
+          </StackLayout>
           <StackLayout row="1" class="input-field-p" v-show="isSignup">
-            <TextField class="input" v-model="nickname" hint="Nickname" returnKeyType="next"/>
+            <float-label v-model="nickname" placeholder="Nickname" secure="false"></float-label>
           </StackLayout>
           <StackLayout row="2" class="input-field-p">
-            <TextField class="input" v-model="password" hint="Password" secure="true" returnKeyType="next"/>
+            <float-label v-model="password" placeholder="Password" secure="true"></float-label>
           </StackLayout>
           <StackLayout row="3" class="input-field-p" v-show="isSignup">
-            <TextField class="input" v-model="repassword" hint="Repeat password" secure="true" returnKeyType="done"/>
+            <float-label v-model="repassword" placeholder="Repeat password" secure="true"></float-label>
           </StackLayout>
         </GridLayout>
       </StackLayout>
       <StackLayout class="auth-c">
-        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit" />
+        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit"/>
         <Label class="login-p" @tap="toggleAuth">
           <FormattedString>
             <span :text="isSignup ? '이미 회원이시라면' : '비밀번호를 잊으셨다면' "/>
@@ -32,30 +33,33 @@
   </Page>
 </template>
 <script>
-import Home from './Home'
+import Home from '~/views/Home.vue'
+import FloatLabel from '~/components/FloatLabel.vue'
 export default {
+  components: {
+    'float-label': FloatLabel
+  },
   data() {
     return {
-      user: {
-        email: 'Hello',
-        password: 'hello'
-      },
       isSignup: false,
       email: '',
       nickname: '',
       password: '',
-      repassword: '',
+      repassword: ''
     }
   },
   methods: {
     onSubmit() {
-      if(this.isSignup) {
-        console.log('저장함')
+      if(this.isSignup){
+        this.$userService.signup({ email: this.email, nickname: this.nickname, password: this.password })
+        .then(() => this.isSignup = false)
       }
       else {
-        if(this.email == this.user.email && this.password == this.user.password) {
+        this.$userService.signin({ email: this.email, password: this.password })
+        .then(response => {
+          this.$storage.setString('token', response.data.success)
           this.$navigateTo(Home, { clearHistory: true })
-        }
+        })
       }
     },
     toggleAuth() {
@@ -82,42 +86,21 @@ export default {
     }
   }
   .input-field-w {
-    padding: 50;
+    padding: 60;
     flex: 2;
     .input-field-c {
-      background-color: rgba(251, 117, 55, 0.7);
+      background-color: rgba(51, 51, 51, 0.63);
       border-radius: 5;
     }
     .input-field-p {
-      margin: 30;
-      .input {
-        font-size: 20;
+      margin: 20;
+      .float-label {
+        font-size: 10;
+        color: #fff;
+        margin: 0 0;
+        padding: 0 0;
       }
     }
   }
 }
-// .auth-w {
-//   background: url("~/images/pet-taxi-auth-bg.jpg");
-//   background-size: cover;
-//   .auth-c {
-//     vertical-align: middle;
-//     .app-name-p {
-//     }
-//     .login-p {
-//       color: #A8A8A8;
-//       font-size: 16;
-//     }
-//     .auth-p {
-//       .input-field {
-//         margin: 0 30;
-//         .input {
-//           font-size: 20;
-//           margin-bottom: 15;
-//           // border-bottom: 1px soild #333;
-//           // background-color: #f1f1f1;
-//         }
-//       }
-//     }
-//   }
-// }
 </style>
