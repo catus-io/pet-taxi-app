@@ -2,8 +2,8 @@
   <Page class="page">
   <ActionBar title="Title" class="action-bar" >
     <DockLayout width="100%">
-      <Label text="Back" width="30%" dock="left" @tap="onButtonTap" />
-      <Label text="예약하기" width="50%" dock="center" @tap="onButtonTap" />
+      <Label text="Back" width="30%" dock="left"/>
+      <Label text="예약하기" width="50%" dock="center" @tap="onSubmit" />
     </DockLayout>
   </ActionBar>
     <StackLayout>
@@ -42,7 +42,7 @@
               <Label text="소형견" :class="(pet.size == 'small') ? 'pet-size middle' : 'pet-size'" @tap="selectSize('small')"/>
             </StackLayout>
             <Label col="0" row="1" text="견종" class="pet-info-category-w"/>
-            <TextField col="1" row="1" v-model="pet.sepcies" hint="견종을 입력해주세요"/>
+            <TextField col="1" row="1" v-model="pet.species" hint="견종을 입력해주세요"/>
             <Label col="0" row="2" text="특이사항" class="pet-info-category-w"/>
             <TextField col="1" row="2" v-model="pet.note" hint="특이사항을 알려주세요!"/>
           </GridLayout>
@@ -67,9 +67,6 @@ export default {
   data() {
     return {
       isOn: true,
-      time: '',
-      departure: '',
-      arrival: '',
       pet: {
         size: 'big',
         species: '',
@@ -135,6 +132,18 @@ export default {
     },
     selectSize(size) {
       this.pet.size = size
+    },
+    onSubmit() {
+      const book = {
+        date: this.selectedDate,
+        time: this.selectedTime,
+        departure: this.selectedDeparture,
+        arrival: this.selectedArrival,
+        info: this.pet
+      }
+      this.$bookService.book(book)
+      .then(response => alert('예약이 성공하셨습니다!'))
+      .catch(err => console.log(err))
     }
   },
 }

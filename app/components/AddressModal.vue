@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     search() {
-      this.$http.post('/search', {addr: this.address})
+      this.$bookService.search(this.address)
       .then(response => this.list = response.data)
       .catch(err => console.log(err))
     }
