@@ -7,49 +7,47 @@
     </DockLayout>
   </ActionBar>
     <StackLayout>
-      <StackLayout>
-        <FlexboxLayout class="booking-date-w">
-          <StackLayout class="date-c">
-            <Label class="h3 p-15 m-15 text-left" @tap="showDatePicker">
+      <FlexboxLayout class="booking-date-w">
+        <StackLayout class="date-c">
+          <Label class="h3 p-15 m-15 text-left" @tap="showDatePicker">
               <FormattedString>
                 <Span :text="formatDate" />
                 <Span text="  " />
                 <Span class="fa" :text="   '\uf105'" color="black" fontSize="20" />
               </FormattedString>
             </Label>
-          </StackLayout>
-          <StackLayout class="time-c">
-            <Label @tap="showTimePicker">
+        </StackLayout>
+        <StackLayout class="time-c">
+          <Label @tap="showTimePicker">
               <FormattedString>
                 <Span :text="formatTime" />
                 <Span text="  " />
                 <Span class="fa" :text="   '\uf105'" color="black" fontSize="31" />
               </FormattedString>
             </Label>
-          </StackLayout>
-        </FlexboxLayout>
+        </StackLayout>
+      </FlexboxLayout>
+      <StackLayout class="search-w">
+        <Label :class="(selectedDeparture) ? 'search on' : 'search off'" :text="(selectedDeparture) ? selectedDeparture.roadAddr : '출발지 검색'" @tap="showDepartureModal"/>
+        <Label :class="(selectedArrival) ? 'search on' : 'search off'" :text="(selectedArrival) ? selectedArrival.roadAddr : '도착지 검색'" @tap="showArrivalModal"/>
       </StackLayout>
-      <StackLayout>
-        <Button text="출발지" @tap="showSearch" col="0" class="btn btn-primary m-t-20" />
-        <Label text="전라북도 전주시 완산구 신봉3길 32" />
-      </StackLayout>
-      <StackLayout>
-        <Button text="도착지" @tap="showSearch" col="0" class="btn btn-primary m-t-20" />
-        <Label text="전라북도 전주시 덕진구 봉신3길 21" />
-      </StackLayout>
-      <StackLayout>
-        <Label @tap="togglePetInfo">
-          <FormattedString>
-            <span :text="isOn ? '상세정보' : '상세정보 닫기' "/>
-          </FormattedString>
-        </Label>
-      </StackLayout>
-      <StackLayout v-show="!isOn">
-        <TextField v-model="pet.size" hint="견종 크기 " />
-        <TextField v-model="pet.species" hint="견종 종류" />
-        <TextField v-model="pet.note" hint="특이사항" />
-      </StackLayout>
-      <Button text="logout" @tap="onLogout"/>
+      <FlexboxLayout class="info-w">
+        <Label class="advanced-info-w" @tap="togglePetInfo" :text="isOn ? '상세 정보' : ''"/>
+        <StackLayout v-show="!isOn">
+          <GridLayout columns="auto, *" rows="auto, auto, auto">
+            <Label col="0" row="0" text="견종 크기" class="pet-info-category-w"/>
+            <StackLayout col="1" row="0" orientation="horizontal" class="pet-info-cateogry-w pet-size-w">
+              <Label text="대형견" :class="(pet.size == 'big') ? 'pet-size big' : 'pet-size'" @tap="selectSize('big')"/>
+              <Label text="중형견" :class="(pet.size == 'middle') ? 'pet-size middle' : 'pet-size'" @tap="selectSize('middle')"/>
+              <Label text="소형견" :class="(pet.size == 'small') ? 'pet-size middle' : 'pet-size'" @tap="selectSize('small')"/>
+            </StackLayout>
+            <Label col="0" row="1" text="견종" class="pet-info-category-w"/>
+            <TextField col="1" row="1" v-model="pet.sepcies" hint="견종을 입력해주세요"/>
+            <Label col="0" row="2" text="특이사항" class="pet-info-category-w"/>
+            <TextField col="1" row="2" v-model="pet.note" hint="특이사항을 알려주세요!"/>
+          </GridLayout>
+        </StackLayout>
+      </FlexboxLayout>
     </StackLayout>
   </Page>
 </template>
@@ -57,6 +55,7 @@
 import Auth from '~/views/auth/Auth.vue'
 import DatePicker from '~/components/DatePicker.vue'
 import TimePicker from '~/components/TimePicker.vue'
+import AddressModal from '~/components/AddressModal.vue'
 export default {
   created() {
     this.$userService.verifyToken(this.$storage.getString('token'))
@@ -72,12 +71,14 @@ export default {
       departure: '',
       arrival: '',
       pet: {
-        size: 'Biggest',
-        species: 'dic',
-        note: '지랄맞음',
+        size: 'big',
+        species: '',
+        note: '',
       },
       selectedDate: new Date(),
       selectedTime: new Date(),  
+      selectedDeparture: null,
+      selectedArrival: null,
     }
   },
   computed: {
@@ -111,9 +112,19 @@ export default {
         if(selectedTime) this.selectedTime = selectedTime 
       })
     },
-    showSearch() {
-      this.$showModal(TimePicker);
-
+    showDepartureModal() {
+      this.$showModal(AddressModal)
+      .then(selectedDeparture => {
+        if(!selectedDeparture) return;
+        this.selectedDeparture = selectedDeparture
+      })
+    },
+    showArrivalModal() {
+      this.$showModal(AddressModal)
+      .then(selectedArrival => {
+        if(!selectedArrival) return;
+        this.selectedArrival = selectedArrival
+      })
     },
     togglePetInfo() {
       this.isOn = !this.isOn
@@ -122,6 +133,9 @@ export default {
       this.$storage.remove('token')
       this.$navigateTo(Auth, { clearHistory: true })
     },
+    selectSize(size) {
+      this.pet.size = size
+    }
   },
 }
 </script>
@@ -143,6 +157,55 @@ export default {
     font-weight: bold;
     margin: 10 0 50 0;
   }
+}
+.search-w {
+  box-shadow: 3 3 #000000;
+  border-bottom-color: #e4e1e1;
+  border-bottom-width: 1;
+  border-top-color: #e4e1e1;
+  border-top-width: 1;
+}
+.search {
+  padding: 15;
+  font-size: 16;
+}
+.search.off {
+  color: #c2c2c2;
+}
+.search.on {
+  color: #000000;
+}
+.info-w {
+  justify-content: center;
+  align-items: center;
+  font-size: 13;
+  margin-top: 15;
+}
+.advanced-info-w {
+  margin-top: 10;
+  padding: 10;
+  color: rgb(219, 35, 35);
+}
+.pet-size-w {
+  padding: 10;
+}
+.pet-size {
+  padding: 7;
+  border-width: 1;
+  border-color: #e4e1e1;
+}
+.pet-size.big {
+  color: rgb(219, 35, 35);
+  border-color: rgb(219, 35, 35);
+}
+.pet-size.middle {
+  border-color: rgb(219, 35, 35);
+}
+.pet-size.small {
+  border-color: rgb(219, 35, 35);
+}
+.pet-info-category-w {
+  padding: 10;
 }
 // Custom styles
 .fa {
