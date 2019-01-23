@@ -1,7 +1,7 @@
 <template>
   <Page actionBarHidden="true">
     <FlexboxLayout class="auth-w">
-      <StackLayout class="auth-c">
+      <StackLayout class="auth-c app-title-w">
         <Label text="PET TAXI" class="app-name-p"/>
       </StackLayout>
       <StackLayout class="auth-c input-field-w">
@@ -20,7 +20,7 @@
           </StackLayout>
         </GridLayout>
       </StackLayout>
-      <StackLayout class="auth-c">
+      <StackLayout class="auth-c auth-toggle-w">
         <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit"/>
         <Label class="login-p" @tap="toggleAuth">
           <FormattedString>
@@ -76,8 +76,10 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   .auth-c {
-    align-self: center;
-    vertical-align: middle;
+    // align-self: center;
+    // vertical-align: middle;
+  }
+  .app-title-w {
     .app-name-p {
       font-size: 25;
       font-weight: bold;
@@ -86,10 +88,9 @@ export default {
     }
   }
   .input-field-w {
-    padding: 60;
+    padding: 0 60;
     flex: 2;
     .input-field-c {
-      background-color: rgba(51, 51, 51, 0.63);
       border-radius: 5;
     }
     .input-field-p {
@@ -100,6 +101,11 @@ export default {
         margin: 0 0;
         padding: 0 0;
       }
+    }
+  }
+  .auth-toggle-w {
+    .login-p {
+      margin-bottom: 60; 
     }
   }
 }
