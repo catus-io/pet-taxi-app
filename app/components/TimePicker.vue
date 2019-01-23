@@ -3,7 +3,7 @@
     <StackLayout>
       <TimePicker v-model="selectedTime" />
     </StackLayout>
-    <Button class="btn btn-outline" text="확인" @tap="dateOk"/>
+    <Button class="btn btn-outline" text="확인" @tap="timeOk"/>
     <Button class="btn btn-outline" text="취소" @tap="$modal.close()"/>
   </StackLayout>
 </template>
@@ -16,8 +16,8 @@ export default {
     }
   },
   methods: {
-    dateOk() {
-      this.$modal.close(this.selectedDate)
+    timeOk() {
+      this.$modal.close(this.selectedTime)
     }
   }
 };
