@@ -10,11 +10,22 @@
       <StackLayout>
         <FlexboxLayout class="booking-date-w">
           <StackLayout class="date-c">
-            <Label col="0" :text="formatDate" @tap="showDatePicker" />
-            <Label class="fa" :text="'fa-eye' | fonticon" />
+            <Label class="h3 p-15 m-15 text-left" @tap="showDatePicker">
+              <FormattedString>
+                <Span :text="formatDate" />
+                <Span text="  " />
+                <Span class="fa" :text="   '\uf105'" color="black" fontSize="20" />
+              </FormattedString>
+            </Label>
           </StackLayout>
           <StackLayout class="time-c">
-            <Label col="0" :text="formatTime" @tap="showTimePicker"/>
+            <Label @tap="showTimePicker">
+              <FormattedString>
+                <Span :text="formatTime" />
+                <Span text="  " />
+                <Span class="fa" :text="   '\uf105'" color="black" fontSize="31" />
+              </FormattedString>
+            </Label>
           </StackLayout>
         </FlexboxLayout>
       </StackLayout>
@@ -119,7 +130,7 @@ export default {
 @import '../app-variables';
 // End custom common variables
 .action-bar {
-  background-color: rgb(141, 18, 18);
+  background-color: rgba(0, 174, 102, 0.85);
 }
 .booking-date-w {
   flex-direction: column;

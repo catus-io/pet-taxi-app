@@ -21,12 +21,10 @@
         </GridLayout>
       </StackLayout>
       <StackLayout class="auth-c auth-toggle-w">
-        <Button :text="isSignup ? '회원가입' : '로그인'" @tap="onSubmit"/>
+        <Button :text="isSignup ? '회원가입 ' : '로그인'" @tap="onSubmit"/>
         <Label class="login-p" @tap="toggleAuth">
-          <FormattedString>
-            <span :text="isSignup ? '이미 회원이시라면' : '비밀번호를 잊으셨다면' "/>
-            <span :text="isSignup ? '로그인' : '회원가입'" />
-          </FormattedString>
+            <span :text="isSignup ? '이미 회원이시라면 ' : '비밀번호를 잊으셨다면 ' "/>
+            <span class="child" :text="isSignup ? ' 로그인' : ' 회원가입'" />
         </Label>
       </StackLayout>
     </FlexboxLayout>
@@ -76,25 +74,27 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   .auth-c {
-    // align-self: center;
+    align-self: center;
     // vertical-align: middle;
   }
   .app-title-w {
     .app-name-p {
-      font-size: 25;
+      font-size: 33;
+      color: black;
       font-weight: bold;
       text-align: center;
       margin-top: 70;
     }
   }
   .input-field-w {
-    padding: 0 60;
+    padding: 0 90;
     flex: 2;
     .input-field-c {
+      margin-top: 20;
       border-radius: 5;
     }
     .input-field-p {
-      margin: 20;
+      // margin: 20;
       .float-label {
         font-size: 10;
         color: #fff;
@@ -104,8 +104,20 @@ export default {
     }
   }
   .auth-toggle-w {
+    Button {
+      color: white;
+      font-weight: bold;
+      background-color: rgba(0, 174, 102, 0.85);
+    }
     .login-p {
-      margin-bottom: 60; 
+      margin-bottom: 87; 
+      background-color: rgba(255, 255, 255, 0.75);
+      padding: 5 10;
+      .child {
+        font-weight: bold;
+
+      }
+
     }
   }
 }
