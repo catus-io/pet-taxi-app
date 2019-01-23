@@ -7,8 +7,8 @@
     </GridLayout>
   </ActionBar>
     <StackLayout>
-      <Button text="날짜 선택" @tap="showDatePicker" col="0" class="btn btn-primary m-t-20" />
-      <Label text="2019.01.10" />
+      <Label col="0" :text="formatToday" @tap="showDatePicker" /> 
+      <Label col="0" :text="formatTime" @tap="showTimePicker"/>
       <StackLayout>
         <Button text="출발지" @tap="showSearch" col="0" class="btn btn-primary m-t-20" />
         <Label text="전라북도 전주시 완산구 신봉3길 32" />
@@ -48,7 +48,6 @@ export default {
   data() {
     return {
       isOn: true,
-      date: '2019. 01. 31',
       time: '',
       departure: '',
       arrival: '',
@@ -56,21 +55,35 @@ export default {
         size: 'Biggest',
         species: 'dic',
         note: '지랄맞음',
-      }
+      },
+      selectedDate: new Date(),
+      selectedTime: new
     }
   },
   computed: {
-    message() {
-      return "5시간 짜리야 세꺄";
+    formatToday() {
+      const year = this.selectedDate.getFullYear()
+      const month = this.selectedDate.getMonth()+1
+      const date = this.selectedDate.getDate()
+
+      return `${year}년 ${month}월 ${date}일`;
     }
   },
-  methods : {
+  methods: {
     goAuth() {
       this.$navigateTo(Auth)
     },
     showDatePicker() {
-      this.$showModal(DatePicker);
-
+      this.$showModal(DatePicker)
+      .then(selectedDate => {
+        if(selectedDate) this.selectedDate = selectedDate 
+      })
+    },
+    showTimePicker() {
+      this.$showModal(TimePicker)
+      .then(selectedTime => {
+        if(selectedTime) this.selectedTime = selectedTime 
+      })
     },
     showSearch() {
       this.$showModal(TimePicker);
@@ -82,8 +95,8 @@ export default {
     onLogout() {
       this.$storage.remove('token')
       this.$navigateTo(Auth, { clearHistory: true })
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped lang="scss">

@@ -5,7 +5,7 @@ import axios from 'axios'
 import * as applicationSettings from 'tns-core-modules/application-settings'
 import UserService from '~/services/user.service'
 
-axios.defaults.baseURL = 'http://192.168.13.6:3000/api/'
+axios.defaults.baseURL = 'http://192.168.13.4:3000/api/'
 
 const userService = new UserService(axios)
 
@@ -25,5 +25,5 @@ Vue.prototype.$userService = userService
 // }).$start();
 
 new Vue({
-  render: h => h('frame', [h(applicationSettings.getString('token') ? Home : Auth)]),
+  render: h => h('frame', [h(applicationSettings.getString('token') ? Home : Home)]),
 }).$start();

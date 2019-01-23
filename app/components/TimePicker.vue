@@ -1,18 +1,27 @@
 <template>
-	<StackLayout class="p-20" backgroundColor="white">
-    <TimePicker row="1" :hour="currentHour" :minute="currentMinute" />
-		<Label class="h2 text-center" text="This is a modal page." />
-		<Button class="btn btn-outline" text="Close Modal" @tap="$modal.close()" />
-	</StackLayout>
+  <StackLayout class="p-20" backgroundColor="white" tabTextFontSize="16">
+    <StackLayout>
+      <TimePicker v-model="selectedTime" />
+    </StackLayout>
+    <Button class="btn btn-outline" text="확인" @tap="dateOk"/>
+    <Button class="btn btn-outline" text="취소" @tap="$modal.close()"/>
+  </StackLayout>
 </template>
 
 <script>
 export default {
-    data() {
-        return {};
+  data() {
+    return {
+      selectedTime: ''
     }
+  },
+  methods: {
+    dateOk() {
+      this.$modal.close(this.selectedDate)
+    }
+  }
 };
 </script>
-
 <style>
 </style>
+
