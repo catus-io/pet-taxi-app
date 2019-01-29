@@ -48,6 +48,7 @@
           </GridLayout>
         </StackLayout>
       </FlexboxLayout>
+      <Label text="로그아웃" @tap="onLogout" class="advanced-info-w"/>
     </StackLayout>
   </Page>
 </template>

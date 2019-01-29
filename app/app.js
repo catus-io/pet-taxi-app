@@ -6,7 +6,7 @@ import * as applicationSettings from 'tns-core-modules/application-settings'
 import UserService from '~/services/user.service'
 import BookService from '~/services/book.service'
 
-axios.defaults.baseURL = 'http://192.168.13.6:3000/api/'
+axios.defaults.baseURL = 'http://13.209.68.249:3000/api/'
 
 const userService = new UserService(axios)
 const bookService = new BookService(axios, applicationSettings)
@@ -28,5 +28,5 @@ Vue.prototype.$bookService = bookService
 // }).$start();
 
 new Vue({
-  render: h => h('frame', [h(applicationSettings.getString('token') ? Home : Home)]),
+  render: h => h('frame', [h(applicationSettings.getString('token') ? Home : Auth)]),
 }).$start();
